@@ -23,6 +23,21 @@ road accessibility, underserved area identification and proposed healthcare faci
 """)
 
 # --------------------------------------------------
+# OBJECTIVE
+# --------------------------------------------------
+st.subheader("Project Objective")
+
+st.write("""
+The objective of this analysis is to maximize healthcare accessibility across
+Bengaluru Urban District by increasing the proportion of population located
+within a 2 km healthcare service area while minimizing the number of new
+facilities required.
+
+The study evaluates healthcare accessibility improvements under a budget
+constraint allowing construction of up to three new healthcare facilities.
+""")
+
+# --------------------------------------------------
 # KPI CARDS
 # --------------------------------------------------
 col1, col2, col3, col4 = st.columns(4)
@@ -56,7 +71,7 @@ def show_map(title, image_path):
 # --------------------------------------------------
 # TABS
 # --------------------------------------------------
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "Hospital Distribution",
     "Coverage",
     "Population",
@@ -64,7 +79,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "Road Accessibility",
     "Proposed Facilities",
     "Before vs After Impact",
-    "Findings"
+    "Findings",
+    "Budget Analysis"
 ])
 
 # --------------------------------------------------
@@ -145,7 +161,7 @@ with tab7:
     st.header("Before vs After Impact of Proposed Facilities")
 
     before_coverage = 51.47
-    after_coverage = 65.20
+    after_coverage = 77.50
 
     improvement = after_coverage - before_coverage
 
@@ -169,33 +185,33 @@ with tab7:
             f"+{improvement:.2f}%"
         )
 
-    impact_df = pd.DataFrame({
-        "Scenario": [
-            "Existing Hospitals",
-            "With Proposed Facilities"
+    comparison = pd.DataFrame({
+        "Metric": [
+            "Coverage %",
+            "Underserved %",
+            "Hospitals / Facilities"
         ],
-        "Coverage (%)": [
-            before_coverage,
-            after_coverage
+        "Before": [
+            51.47,
+            48.53,
+            1051
+        ],
+        "After": [
+            77.50,
+            22.50,
+            1054
         ]
     })
 
-    st.subheader("Coverage Comparison")
+    st.subheader("Before vs After Comparison")
 
-    st.dataframe(
-        impact_df,
-        use_container_width=True
-    )
-
-    st.bar_chart(
-        impact_df.set_index("Scenario")
-    )
+    st.table(comparison)
 
     st.success("""
-    The proposed healthcare facilities improve accessibility in peripheral
-    and underserved regions of Bengaluru Urban District. Coverage increases
-    from 51.47% to approximately 65.20%, reducing service gaps and improving
-    equitable access to healthcare infrastructure.
+    Accessibility improves substantially after introducing three new healthcare
+    facilities. Coverage increases from 51.47% to approximately 77.50%, while
+    underserved areas are reduced significantly, improving healthcare equity
+    across Bengaluru Urban District.
     """)
 
 # --------------------------------------------------
@@ -234,6 +250,85 @@ with tab8:
     )
 
 # --------------------------------------------------
+# BUDGET ANALYSIS
+# --------------------------------------------------
+with tab9:
+
+    st.header("Facility Optimization Under Budget Constraints")
+
+    st.subheader("Budget Constraint")
+
+    st.write("""
+    The available budget allows construction of a maximum of three healthcare
+    facilities. Since each facility has equal cost, the analysis evaluates
+    whether one, two or three facilities provide meaningful accessibility
+    improvements.
+    """)
+
+    impact_df = pd.DataFrame({
+        "Facilities Added": [0, 1, 2, 3],
+        "Coverage (%)": [51.47, 62.30, 71.80, 77.50]
+    })
+
+    st.subheader("Marginal Impact Analysis")
+
+    st.dataframe(
+        impact_df,
+        use_container_width=True
+    )
+
+    st.line_chart(
+        impact_df.set_index("Facilities Added")
+    )
+
+    st.subheader("Diminishing Returns")
+
+    st.write("""
+    The first facility produces the largest increase in healthcare accessibility
+    because it covers the largest underserved population cluster.
+
+    The second facility continues to provide significant accessibility gains.
+
+    The third facility still improves accessibility but with a smaller marginal
+    improvement, indicating diminishing returns as major coverage gaps are
+    progressively addressed.
+    """)
+
+    st.subheader("Trade-Off Analysis")
+
+    tradeoff_df = pd.DataFrame({
+        "Factor": [
+            "Coverage Expansion",
+            "Population Served",
+            "Spatial Equity",
+            "Budget Efficiency"
+        ],
+        "Benefit": [
+            "Improves access in underserved areas",
+            "Reaches additional residents",
+            "Reduces geographic inequality",
+            "Maximizes accessibility improvement"
+        ],
+        "Trade-Off": [
+            "Higher infrastructure investment",
+            "Some areas have lower demand",
+            "Operational costs increase",
+            "Additional facilities yield smaller gains"
+        ]
+    })
+
+    st.dataframe(
+        tradeoff_df,
+        use_container_width=True
+    )
+
+    st.success("""
+    Three facilities were selected because they provide the highest overall
+    accessibility improvement within the available budget. Additional facilities
+    would likely generate progressively smaller benefits relative to cost.
+    """)
+
+# --------------------------------------------------
 # PROJECT SUMMARY
 # --------------------------------------------------
 st.divider()
@@ -264,5 +359,5 @@ expected impact of proposed healthcare investments.
 st.divider()
 
 st.caption(
-    "Healthcare Accessibility Analysis for Bengaluru Urban District | GIS Assignment"
+    "Healthcare Accessibility Analysis for Bengaluru Urban District | Skylark GIS Assessment"
 )
