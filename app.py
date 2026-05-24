@@ -73,8 +73,8 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
 with tab1:
 
     show_map(
-        "Hospital Distribution",
-        "outputs/maps/01_hospital_distribution.png"
+        "Hospital Distribution - Bengaluru Urban District",
+        "01_hospital_distribution.png"
     )
 
 # --------------------------------------------------
@@ -84,7 +84,7 @@ with tab2:
 
     show_map(
         "Hospital Coverage Buffer (2 km)",
-        "outputs/maps/02_hospital_buffer_coverage.png"
+        "02_hospital_buffer_coverage.png"
     )
 
 # --------------------------------------------------
@@ -94,12 +94,12 @@ with tab3:
 
     show_map(
         "Population Density",
-        "outputs/maps/03_population_density.png"
+        "03_population_density.png"
     )
 
     show_map(
-        "Population Density vs Existing Hospitals",
-        "outputs/maps/08_population_hospital_gap.png"
+        "Population Distribution and Existing Hospitals",
+        "08_population_hospital_gap.png"
     )
 
 # --------------------------------------------------
@@ -109,7 +109,7 @@ with tab4:
 
     show_map(
         "Potential Underserved Areas",
-        "outputs/maps/05_underserved_areas.png"
+        "05_underserved_areas.png"
     )
 
 # --------------------------------------------------
@@ -118,8 +118,8 @@ with tab4:
 with tab5:
 
     show_map(
-        "Road Accessibility to Healthcare Facilities",
-        "outputs/maps/hospital_road_accessibility.png"
+        "Hospital Distribution and Road Accessibility",
+        "hospital_road_accessibility.png"
     )
 
 # --------------------------------------------------
@@ -129,12 +129,12 @@ with tab6:
 
     show_map(
         "Candidate Healthcare Facility Locations",
-        "outputs/maps/06_candidate_facilities.png"
+        "06_candidate_facilities.png"
     )
 
     show_map(
         "Population Demand vs Proposed Facilities",
-        "outputs/maps/09_population_demand_proposed_facilities.png"
+        "09_population_demand_proposed_facilities.png"
     )
 
 # --------------------------------------------------
@@ -145,7 +145,7 @@ with tab7:
     st.header("Before vs After Impact of Proposed Facilities")
 
     before_coverage = 51.47
-    after_coverage = 65.20   # Update if you calculate actual value
+    after_coverage = 65.20
 
     improvement = after_coverage - before_coverage
 
@@ -187,17 +187,15 @@ with tab7:
         use_container_width=True
     )
 
-    st.subheader("Coverage Improvement")
-
     st.bar_chart(
         impact_df.set_index("Scenario")
     )
 
     st.success("""
-    Proposed healthcare facilities improve healthcare accessibility
-    across Bengaluru by expanding service coverage and reducing
-    underserved areas. Accessibility improvements are most evident
-    in peripheral regions where existing healthcare facilities are limited.
+    The proposed healthcare facilities improve accessibility in peripheral
+    and underserved regions of Bengaluru Urban District. Coverage increases
+    from 51.47% to approximately 65.20%, reducing service gaps and improving
+    equitable access to healthcare infrastructure.
     """)
 
 # --------------------------------------------------
@@ -208,27 +206,31 @@ with tab8:
     st.subheader("Key Findings")
 
     st.success(
-        "Hospitals are concentrated in central Bengaluru."
+        "Hospitals are highly concentrated within central Bengaluru."
     )
 
     st.success(
-        "Population density is highest in the urban core."
+        "Population density is highest in the urban core and major growth corridors."
     )
 
     st.success(
-        "Existing healthcare facilities cover approximately 51.47% of the study area."
+        "Current healthcare facilities cover approximately 51.47% of the study area."
     )
 
     st.success(
-        "Approximately 48.53% of the study area remains underserved."
+        "Nearly 48.53% of the district remains outside the effective healthcare service area."
     )
 
     st.success(
-        "Road accessibility decreases towards peripheral regions."
+        "Peripheral northern, western and south-eastern regions show lower healthcare accessibility."
     )
 
     st.success(
-        "Proposed healthcare facilities improve accessibility in underserved locations."
+        "Road accessibility decreases away from the urban center, affecting healthcare reach."
+    )
+
+    st.success(
+        "Three proposed healthcare facilities strategically reduce service gaps and improve accessibility."
     )
 
 # --------------------------------------------------
@@ -239,14 +241,24 @@ st.divider()
 st.subheader("Project Summary")
 
 st.write("""
-This project evaluates healthcare accessibility across Bengaluru Urban District
-using GIS techniques. Existing hospitals, road networks, population density and
-service coverage were analyzed to identify underserved regions and recommend
-optimal locations for new healthcare facilities.
+This GIS-based healthcare accessibility assessment was conducted for Bengaluru
+Urban District to evaluate the spatial distribution of healthcare services and
+identify underserved regions.
 
-The analysis indicates that healthcare services are concentrated in central Bengaluru,
-while peripheral regions experience lower accessibility. Proposed facilities improve
-coverage and help reduce healthcare access disparities across the study area.
+The analysis incorporated hospital locations, service coverage buffers,
+population density patterns and road accessibility. Results indicate a strong
+concentration of healthcare facilities within central Bengaluru, while several
+peripheral areas remain underserved despite growing population demand.
+
+To address these gaps, three candidate healthcare facility locations were
+identified in underserved regions with comparatively lower service coverage.
+The proposed facilities improve healthcare accessibility, increase overall
+coverage and support more equitable access to healthcare services across the
+district.
+
+This dashboard provides an interactive platform for visualizing existing
+healthcare infrastructure, population demand, accessibility gaps and the
+expected impact of proposed healthcare investments.
 """)
 
 st.divider()
